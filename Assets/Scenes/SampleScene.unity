@@ -410,6 +410,9 @@ MonoBehaviour:
   environmentLayer:
     serializedVersion: 2
     m_Bits: 8
+  investigationDuration: 5
+  investigationTime: 0
+  state: 0
 --- !u!195 &396582351
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1086,6 +1089,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d84556fdc5500c4bb0e11c0b4f2efd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  guard: {fileID: 0}
   OnHeard:
     m_PersistentCalls:
       m_Calls:

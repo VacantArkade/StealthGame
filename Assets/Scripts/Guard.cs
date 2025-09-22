@@ -1,6 +1,14 @@
 using UnityEngine;
 using UnityEngine.AI;
 
+
+public enum GuardStates
+{
+    WANDER,
+    INVESTIGATE,
+    PURSUE
+}
+
 public class Guard : MonoBehaviour
 {
     [SerializeField] NavMeshAgent agent;
@@ -17,49 +25,64 @@ public class Guard : MonoBehaviour
     [SerializeField] float visionRadius;
     [SerializeField] LayerMask environmentLayer;
 
+    //[SerializeField] bool isAlerted;
+    [SerializeField] public float investigationDuration;
+    public float investigationTime = 0;
+
+    [SerializeField] public GuardStates state = GuardStates.WANDER;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         currentPatrolPoint = patrolPoints[0];
-        agent.SetDestination(currentPatrolPoint.position);
-        //rb = GetComponent<Rigidbody>();
+        /*agent.SetDestination(currentPatrolPoint.position);
         path = new NavMeshPath();
 
-        agent.CalculatePath(currentPatrolPoint.position, path);
+        agent.CalculatePath(currentPatrolPoint.position, path);*/
     }
 
     // Update is called once per frame
     void Update()
     {
-        float distance = Vector3.Distance(transform.position, currentPatrolPoint.position);
-
-
-        if(distance < 1)
-        {
-            patrolPointIndex++;
-
-            patrolPointIndex %= patrolPoints.Length;
-
-            currentPatrolPoint = patrolPoints[patrolPointIndex];
-            agent.SetDestination(currentPatrolPoint.position);
-        }
-
         Debug.DrawLine(transform.position, transform.position + (transform.forward * 5), Color.red);
-    }
+        //if(!isAlerted) UpdateWander();
 
-    private void FixedUpdate()
-    {
-        
+        switch (state)
+        {
+            case GuardStates.WANDER:
+                UpdateWander();
+                break;
+            case GuardStates.INVESTIGATE:
+                UpdateInvestigate();
+                break;
+            case GuardStates.PURSUE:
+                UpdatePursue();
+                break;
+        }
     }
 
     private void HeardSomething(Collider thingWeHeard)
     {
+        //isAlerted = true;
         if (thingWeHeard.GetComponent<Player>() != null)
         {
             Debug.Log("Did you hear that?");
             Vector3 guardForward = transform.forward;
         }
     }
+
+    /*private void OnTriggerExit(Collider other)
+    {
+        if(other.gameObject.GetComponent<Player>() != null)
+        {
+            investigationTime *= Time.deltaTime;
+            if (investigationTime > investigationDuration)
+            {
+                investigationTime = 0;
+                state = GuardStates.WANDER;
+            }
+        }
+    }*/
 
     public void SawSomething(Collider thingWeSaw)
     {
@@ -73,21 +96,62 @@ public class Guard : MonoBehaviour
             lineToPlayer.Normalize();
             float dot = Vector3.Dot(guardForward, lineToPlayer);
 
-            if(dot > visionRadius)
+            if (dot > visionRadius)
             {
                 RaycastHit hit;
-                if(Physics.Raycast(transform.position, lineToPlayer, out hit, 1000, environmentLayer))
+                if (Physics.Raycast(transform.position, lineToPlayer, out hit, 1000, environmentLayer))
                 {
                     Debug.Log("Saw a wall");
                 }
                 else
+                {
                     Debug.Log("Saw player");
+                    state = GuardStates.PURSUE;
+                    investigationTime = 0;
+                }
             }
 
             else
             {
                 Debug.Log("Did not see player");
+                investigationTime += 1 * Time.deltaTime;
+                if (investigationTime > investigationDuration)
+                {
+                    investigationTime = 0;
+                    state = GuardStates.WANDER;
+                }
             }
         }
+    }
+
+
+    void UpdateWander()
+    {
+        agent.SetDestination(currentPatrolPoint.position);
+        path = new NavMeshPath();
+
+        agent.CalculatePath(currentPatrolPoint.position, path);
+
+        float distance = Vector3.Distance(transform.position, currentPatrolPoint.position);
+
+        if (distance < 1)
+        {
+            patrolPointIndex++;
+
+            patrolPointIndex %= patrolPoints.Length;
+
+            currentPatrolPoint = patrolPoints[patrolPointIndex];
+            agent.SetDestination(currentPatrolPoint.position);
+        }
+    }
+
+    void UpdateInvestigate()
+    {
+
+    }
+
+    void UpdatePursue()
+    {
+
     }
 }
