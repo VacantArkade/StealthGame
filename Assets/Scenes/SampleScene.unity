@@ -406,7 +406,7 @@ MonoBehaviour:
   - {fileID: 1346406824}
   - {fileID: 731504175}
   - {fileID: 1870105448}
-  visionRadius: 0.25
+  visionRadius: 0.5
   environmentLayer:
     serializedVersion: 2
     m_Bits: 8
@@ -1517,7 +1517,19 @@ MonoBehaviour:
       m_Calls: []
   m_ActionEvents:
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2062115706}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 84e93b25-80cb-4588-a9a7-0231bc500d14
     m_ActionName: 'Player/WASD[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]'
   - m_PersistentCalls:

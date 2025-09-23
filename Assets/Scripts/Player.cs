@@ -16,4 +16,19 @@ public class Player : MonoBehaviour
     {
         
     }
+
+    private void OnMove()
+    {
+
+    }
+
+    private void OnSneak()
+    {
+
+    }
+
+    private void OnSprint()
+    {
+
+    }
 }

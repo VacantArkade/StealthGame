@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-
 public enum GuardStates
 {
     WANDER,
@@ -45,7 +44,6 @@ public class Guard : MonoBehaviour
     void Update()
     {
         Debug.DrawLine(transform.position, transform.position + (transform.forward * 5), Color.red);
-        //if(!isAlerted) UpdateWander();
 
         switch (state)
         {
@@ -67,22 +65,11 @@ public class Guard : MonoBehaviour
         if (thingWeHeard.GetComponent<Player>() != null)
         {
             Debug.Log("Did you hear that?");
-            Vector3 guardForward = transform.forward;
+            //Vector3 guardForward = transform.forward;
+            state = GuardStates.INVESTIGATE;
         }
     }
 
-    /*private void OnTriggerExit(Collider other)
-    {
-        if(other.gameObject.GetComponent<Player>() != null)
-        {
-            investigationTime *= Time.deltaTime;
-            if (investigationTime > investigationDuration)
-            {
-                investigationTime = 0;
-                state = GuardStates.WANDER;
-            }
-        }
-    }*/
 
     public void SawSomething(Collider thingWeSaw)
     {
@@ -114,12 +101,26 @@ public class Guard : MonoBehaviour
             else
             {
                 Debug.Log("Did not see player");
+                state = GuardStates.INVESTIGATE;
                 investigationTime += 1 * Time.deltaTime;
                 if (investigationTime > investigationDuration)
                 {
                     investigationTime = 0;
                     state = GuardStates.WANDER;
                 }
+            }
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.GetComponent<Player>() == null)
+        {
+            investigationTime += 1 * Time.deltaTime;
+            if (investigationTime > investigationDuration)
+            {
+                investigationTime = 0;
+                state = GuardStates.WANDER;
             }
         }
     }
@@ -152,6 +153,6 @@ public class Guard : MonoBehaviour
 
     void UpdatePursue()
     {
-
+        agent.SetDestination(player.transform.position);
     }
 }
