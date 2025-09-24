@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -29,6 +30,8 @@ public class Guard : MonoBehaviour
     public float investigationTime = 0;
 
     [SerializeField] public GuardStates state = GuardStates.WANDER;
+
+    bool investigating = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -148,7 +151,22 @@ public class Guard : MonoBehaviour
 
     void UpdateInvestigate()
     {
+        if(!investigating)
+        {
+            investigating = true;
+            StartCoroutine(DoInvestigate());
+        }
 
+        transform.Rotate(transform.up, 20 * Time.deltaTime);
+    }
+
+    IEnumerator DoInvestigate()
+    {
+        yield return new WaitForSeconds(investigationDuration);
+
+        state = GuardStates.WANDER;
+        investigating = false;
+        investigationTime = 0;
     }
 
     void UpdatePursue()

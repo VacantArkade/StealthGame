@@ -5,6 +5,8 @@ public class Player : MonoBehaviour
     [SerializeField] Rigidbody rb;
     [SerializeField] float speed;
 
+    bool isSneaking = false;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -24,7 +26,12 @@ public class Player : MonoBehaviour
 
     private void OnSneak()
     {
+        isSneaking = !isSneaking;
 
+        if (!isSneaking)
+            gameObject.layer = LayerMask.NameToLayer("Player");
+        else
+            gameObject.layer = LayerMask.NameToLayer("Sneaking");
     }
 
     private void OnSprint()

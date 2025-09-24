@@ -1443,7 +1443,7 @@ GameObject:
   - component: {fileID: 2062115709}
   - component: {fileID: 2062115708}
   - component: {fileID: 2062115707}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Jeff
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1533,7 +1533,19 @@ MonoBehaviour:
     m_ActionId: 84e93b25-80cb-4588-a9a7-0231bc500d14
     m_ActionName: 'Player/WASD[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2062115706}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: b93dcfa1-37fa-4ddb-a3e1-36b273b5a83b
     m_ActionName: 'Player/Sneak[/Keyboard/leftCtrl]'
   - m_PersistentCalls:
