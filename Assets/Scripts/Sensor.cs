@@ -9,7 +9,5 @@ public class Sensor : MonoBehaviour
     private void OnTriggerStay(Collider other)
     {
         OnHeard.Invoke(other);
-
-
     }
 }

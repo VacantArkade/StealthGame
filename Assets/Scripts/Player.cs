@@ -3,9 +3,12 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField] Rigidbody rb;
-    [SerializeField] float speed;
+    [SerializeField] float walkSpeed;
+    [SerializeField] float sprintSpeed;
+    float currentSpeed;
 
     bool isSneaking = false;
+    bool isSprinting = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -36,6 +39,11 @@ public class Player : MonoBehaviour
 
     private void OnSprint()
     {
+        isSprinting = !isSprinting;
 
+        if (isSprinting && !isSneaking)
+            currentSpeed = sprintSpeed;
+        else
+            currentSpeed = walkSpeed;
     }
 }
