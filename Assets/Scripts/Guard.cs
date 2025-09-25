@@ -13,7 +13,7 @@ public class Guard : MonoBehaviour
 {
     [SerializeField] NavMeshAgent agent;
     NavMeshPath path;
-    //[SerializeField] Rigidbody rb;
+
     [SerializeField] GameObject player;
 
     [SerializeField] float speed;
@@ -37,10 +37,6 @@ public class Guard : MonoBehaviour
     void Start()
     {
         currentPatrolPoint = patrolPoints[0];
-        /*agent.SetDestination(currentPatrolPoint.position);
-        path = new NavMeshPath();
-
-        agent.CalculatePath(currentPatrolPoint.position, path);*/
     }
 
     // Update is called once per frame
@@ -104,6 +100,7 @@ public class Guard : MonoBehaviour
             else
             {
                 Debug.Log("Did not see player");
+
                 state = GuardStates.INVESTIGATE;
                 investigationTime += 1 * Time.deltaTime;
                 if (investigationTime > investigationDuration)
@@ -131,6 +128,7 @@ public class Guard : MonoBehaviour
 
     void UpdateWander()
     {
+        if (investigating) return;
         agent.SetDestination(currentPatrolPoint.position);
         path = new NavMeshPath();
 
@@ -157,7 +155,7 @@ public class Guard : MonoBehaviour
             StartCoroutine(DoInvestigate());
         }
 
-        transform.Rotate(transform.up, 20 * Time.deltaTime);
+        transform.Rotate(transform.up, 100 * Time.deltaTime);
     }
 
     IEnumerator DoInvestigate()
