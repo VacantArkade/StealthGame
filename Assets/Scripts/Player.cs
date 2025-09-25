@@ -5,6 +5,9 @@ public class Player : MonoBehaviour
     [SerializeField] Rigidbody rb;
     [SerializeField] float speed;
 
+    [SerializeField] Material matPlayer;
+    [SerializeField] Material matSneak;
+
     bool isSneaking = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
